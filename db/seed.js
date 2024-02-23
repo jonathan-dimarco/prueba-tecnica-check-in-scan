@@ -2,6 +2,10 @@ import sequelize from "./db.js";
 import { Product } from "../models/products.js";
 import { products } from "./mock-data.js";
 
+//funcion para poblar la base de datos o crearla en caso de que no exista
+//la opcion {force:true} va a sobreescribir cualquier dato que se econtraba previamente
+//solo utilizo esto a modo de poblar la base en un entorno de prueba
+
 const seed = async () => {
   try {
     await sequelize.sync({ force: true });

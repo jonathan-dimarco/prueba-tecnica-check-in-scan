@@ -1,6 +1,8 @@
 import {validateProductData} from "../utils/validators.js"
 import { Product } from "../models/products.js"
 
+
+//Obtiene todos los productos de la tabla
 export const getProducts = async (req, res) => {
     try{
         const products = await Product.findAll()
@@ -13,6 +15,8 @@ export const getProducts = async (req, res) => {
         res.status(500).json({message: error.message})
     }
 }
+
+//obtiene un producto por su ID
 
 export const getProductById = async (req, res) => {
     const {id} = req.params
@@ -28,9 +32,10 @@ export const getProductById = async (req, res) => {
     }
 }
 
+//Creacion de un nuevo producto en la tabla
 export const createProduct = async (req, res) => {
     const {title, description, status} = req.body
-
+    //validacion de datos
     if (!validateProductData(title, description, status)) {
         return res.status(400).json({ message: "Invalid product data" });
     }
@@ -49,9 +54,15 @@ export const createProduct = async (req, res) => {
     }
 }
 
+//actualizacion de un producto por su id
+
 export const updateProductById = async (req, res) => {
     const {id} = req.params;
     const {title, description, status} = req.body;
+    //validacion de datos
+    if (!validateProductData(title, description, status)) {
+        return res.status(400).json({ message: "Invalid product data" });
+    }
     try {
         const productToUpdate = await Product.findByPk(id)
         if (!productToUpdate) {
@@ -69,6 +80,8 @@ export const updateProductById = async (req, res) => {
         res.status(500).json({message: error.message})
     }
 }
+
+//Borrar un producto por su ID
 
 export const deleteProductById = async (req, res) => {
     const { id } = req.params;
